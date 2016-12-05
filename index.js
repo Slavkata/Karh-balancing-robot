@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var dataProvider = require('../modules/data-provider.js');
+
 router.get('/', function(request, response, next){
 	if (request.url ==='/favicon.ico')
 	{
@@ -11,7 +12,7 @@ router.get('/', function(request, response, next){
 		var get_params = request.query;
 		if (get_params.image)
 		{
-			dataProvider.provideData('images/'+get_params.image+'.jpg', {'Content-Type': 'image/jpeg'}, response);
+			dataProvider.provideData('images/'+get_params.image+'.jpg', {"Content-Type":"image/pgn"}, response);
 		}
 		else if (Object.keys(get_params).length)
 		{
@@ -19,7 +20,7 @@ router.get('/', function(request, response, next){
 		}
 		else
 		{
-			dataProvider.provideList('data/data.json', response);
+			dataProvider.provideList('data/data.json', "json", response);
 		}
 	}
 });

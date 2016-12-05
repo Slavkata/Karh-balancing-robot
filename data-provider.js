@@ -3,15 +3,20 @@
  */
 var fs = require('fs');
 
-function readData(filename, response)
+function readData(filename, contentType, response)
 {
 	console.log('providing ' + filename);
 	fs.exists(filename, function(exists) {
 		if (exists) {		
 				fs.readFile(filename, function(error, data) {	
 					if (!error)	{
-						response.writeHead(200, {"Content-type":"application/json"});
-						response.end(data);
+						if(contentType == "json"){
+							result = JSON.parse(data);
+							response.json(result);
+						}else {
+							response.writeHead(200, contentType);
+							response.end(data);
+						}
 					}
 					else {			
 						response.writeHead(500);
@@ -29,14 +34,14 @@ function readData(filename, response)
 
 
 
-exports.provideData = function(filename, response)
+exports.provideData = function(filename, contentType, response)
 {
-	readData(filename, response);
+	readData(filename, contentType, response);
 };
 
-exports.provideList = function(filename,  response)
+exports.provideList = function(filename, contentType, response)
 {
-	readData(filename, response);
+	readData(filename, contentType, response);
 };
 
 exports.queryData = function(filename, json, response) {
@@ -44,6 +49,7 @@ exports.queryData = function(filename, json, response) {
 		if (exists) {		
 				fs.readFile(filename, function(error, data) {	
 					if (!error)	{
+						var headers = {};
 						var result = {};
 						var filteredData = [];
 						var i = 0;
@@ -65,6 +71,7 @@ exports.queryData = function(filename, json, response) {
 						if (filteredData.length > 0) {
 							result = filteredData;
 							var imageUrl = 'images/' + json.type;
+							headers["Image-Url"] = "https://localhost:3000/?image=" + json.type;
 						}
 						response.json(result);
 					}

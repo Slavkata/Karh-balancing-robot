@@ -1,7 +1,8 @@
 
 require 'csv'
 require 'json'
-result = 1
+result = 0
+state = 0
 json = JSON.parse(File.read(ARGV[1]))
 csv = (ARGV[0])
 json.each_key{ |key|
@@ -12,9 +13,12 @@ json.each_key{ |key|
 			help += 1
 		end
 		if help == json.keys.count then
+			if state != 1 state = 1 end
 			result *= json.fetch(key).to_i
 		end
 end
 }
 
-puts result
+if state == 1 puts result
+else puts 0
+end

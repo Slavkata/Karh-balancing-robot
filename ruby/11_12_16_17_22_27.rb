@@ -1,7 +1,7 @@
 
 require 'csv'
 require 'json'
-result = 0
+result = 1
 state = 0
 json = JSON.parse(File.read(ARGV[1]))
 csv = (ARGV[0])

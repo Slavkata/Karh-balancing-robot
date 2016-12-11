@@ -1,18 +1,18 @@
+require 'csv'
 
+result = 1
+state = 0
 
-Develop a program named FirstName_LastName_ClassNumber_8de28f.rb
+csv = File.open(ARGV[0])
 
-1. you are given an argument that is the full path to CSV file
-1.1 if there are other arguments they should be discarded
-2. The CSV file has four columns
-3. The first row of the CSV are the headers with the following names
+CSV.foreach(csv) do |row|
+	if row[0] == "C1" then next end
+	if row[0].to_i < row[3].to_i && row[2].to_i == row[3].to_i + 3 then
+		if state != 1 then state = 1 end
+		result *= row[2].to_i
+	end
+end
 
-		C1, C2, C3, C4
-
-4. Find the product of all the values for column C3 
-	where 
-	C1 < C4
-	and 
-	C3 = C4+3
-
-5. Print only the result value
+if state == 1 then puts result
+	else puts 0
+end

@@ -1,17 +1,15 @@
+require 'csv'
 
-Develop a program named FirstName_LastName_ClassNumber_194ab3.rb
+result = 0
+state = 0
 
-1. you are given an argument that is the full path to CSV file
-1.1 if there are other arguments they should be discarded
-2. The CSV file has four columns
-3. The first row of the CSV are the headers with the following names
+csv = File.open(ARGV[0])
 
-		C1, C2, C3, C4
+CSV.foreach(csv) do |row|
+	if row[0] == "C1" then next end
+	if row[0].to_i > 17 && row[1] == "tues"  then
+		result += row[2].to_i
+	end
+end
 
-4. Find the sum of all the values for column C3 
-	where 
-	C1 > 17
-	and 
-	C2 contais the string 'tues'
-
-5. Print only the result value
+puts result

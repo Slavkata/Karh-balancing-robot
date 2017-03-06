@@ -1,1 +1,0 @@
-# Karh-balancing-robot
